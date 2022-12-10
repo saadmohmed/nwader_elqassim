@@ -138,7 +138,40 @@ class ApiProvider {
       },
     );
   }
+  Future getPage(page) async {
+    final storage = new FlutterSecureStorage();
 
+    final http.Response response = await http.get(
+      Uri.parse('${GET_PAGE}/'+page),
+      headers: <String, String>{
+        'Accept': 'application/json; charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
+      },
+    );
+    print(json.decode(response.body));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data;
+    }
+    return null;
+  }
+  Future get_config() async {
+    final storage = new FlutterSecureStorage();
+
+    final http.Response response = await http.get(
+      Uri.parse('${CONFIGURATION}'),
+      headers: <String, String>{
+        'Accept': 'application/json; charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
+      },
+    );
+    print(json.decode(response.body));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+    return data;
+    }
+    return null;
+  }
   Future get_user_favorite() async {
       final storage = new FlutterSecureStorage();
         final api_token = await storage.read(
@@ -206,9 +239,9 @@ class ApiProvider {
       key: 'id',
     );
 
-    dynamic url =  Uri.parse('${CAT_WITH_PRODUCTS}');
+    dynamic url =  Uri.parse('${GET_CART}');
     if(user_id != null){
-      Uri.parse('${GET_CART}?user_id='+user_id!);
+    url =   Uri.parse('${GET_CART}?user_id='+user_id!);
     }
     final http.Response response = await http.get(
     url,
@@ -218,6 +251,7 @@ class ApiProvider {
         'X-Authorization' : 'Bearer '+(api_token == null ? '' : api_token)
       },
     );
+    print( json.decode(response.body));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       if (data['status'] == true) {
@@ -237,7 +271,7 @@ class ApiProvider {
       key: 'id',
     );
 
-    dynamic url =  Uri.parse('${CAT_WITH_PRODUCTS}');
+    dynamic url =  Uri.parse('${ADD_TO_CART}');
     if(user_id != null){
       Uri.parse('${ADD_TO_CART}?user_id='+user_id!);
     }
@@ -252,12 +286,13 @@ class ApiProvider {
     'user_id':user_id,
     'product_id':product_id,
     'product_variant_id':product_variant_id,
-    'quantity':quantity,
-    'cut_type_id':cut_type_id,
-    'cover_type_id':cover_type_id,
+    'quantity':quantity.toString(),
+    'cut_type_id':cut_type_id.toString(),
+    'cover_type_id':cover_type_id.toString(),
     'is_slaughtered':is_slaughtered,
       },
     );
+    print(json.decode(response.body));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       if (data['status'] == true) {

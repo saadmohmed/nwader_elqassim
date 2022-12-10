@@ -79,14 +79,19 @@ class _MealsListViewState extends State<MealsListView>
 
                   return GestureDetector(
                     onTap: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProductDetails(
-                                  animationController: animationController,
-                              id: widget.mealslist[index].id,
-                                )),
-                      );
+                      ApiProvider _api = new ApiProvider();
+                      dynamic config = await _api.get_config();
+                      if(config['status'] == true){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductDetails(
+                                animationController: animationController,
+                                id: widget.mealslist[index].id,config: config,
+                              )),
+                        );
+                      }
+
                     },
                     child: MealsView(
                       mealsListData: widget.mealslist[index],

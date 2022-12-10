@@ -27,3 +27,5 @@ const UPDATE_PASSWORD = '${BASE_URL}/api/user/change_password';
 const UPDATE_DEVICE_KEY = '${BASE_URL}/api/user/update_device_key';
 const USER_NOTIFICATION = '${BASE_URL}/api/user/get_user_notifications';
 
+const CONFIGURATION = '${BASE_URL}/api/user/get_configuration';
+const GET_PAGE = '${BASE_URL}/api/user';

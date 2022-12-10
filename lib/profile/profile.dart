@@ -185,7 +185,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width / 2.1,
+                                width: MediaQuery.of(context).size.width / 2.3,
                               ),
                               payment_opacity == 1 ? arrow_down : arrow_up
                             ],

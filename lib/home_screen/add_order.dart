@@ -6,6 +6,7 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nwader/home_screen/myorders.dart';
 
 import '../Services/ApiManager.dart';
 import '../app_theme.dart';
@@ -414,7 +415,7 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width / 2.5,
+                                width: MediaQuery.of(context).size.width / 2.8,
                               ),
                               note_opacity == 1 ? arrow_down : arrow_up
 
@@ -466,7 +467,7 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddOrder()),
+                    MaterialPageRoute(builder: (context) => MyOrders()),
                   );
                 },
                 child: Container(

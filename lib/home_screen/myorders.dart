@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../Services/ApiManager.dart';
 import '../app_theme.dart';
 import '../custom_drawer/Drawer.dart';
+import 'notifications.dart';
+import 'orderDetails.dart';
 
 class MyOrders extends StatefulWidget {
   @override
@@ -74,14 +76,14 @@ class _MyOrdersState extends State<MyOrders>
           backgroundColor: AppTheme.white,
           centerTitle: true,
           title: Text(
-            'طلباتي',
+            'الطلبات',
             style: GoogleFonts.getFont(
               AppTheme.fontName,
               textStyle: TextStyle(
                 fontFamily: AppTheme.fontName,
                 fontWeight: FontWeight.w700,
                 fontSize: 20,
-                color: AppTheme.green,
+                color: AppTheme.darkText,
               ),
             ),
           ),
@@ -97,14 +99,14 @@ class _MyOrdersState extends State<MyOrders>
           actions: [
             GestureDetector(
               onTap: () async {
-                Navigator.pop(context,true);
-              },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Notifications()),
+                );              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.arrow_forward_sharp,
-                  color: AppTheme.green,
-                ),
+                child: Image.asset('assets/icons/alert-icon.png'),
               ),
             ),
           ],
@@ -113,14 +115,20 @@ class _MyOrdersState extends State<MyOrders>
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
+
+            children: [
+              Column(
+                children: <Widget>[
+
 OrderBody(),
-              OrderBody(),
+                  OrderBody(),
 
 
 
 
 
+                ],
+              ),
             ],
           ),
         ),
@@ -168,7 +176,7 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
             Stack(
               children: [
                 Container(
-                    height:90,
+                    height:105,
                     width: 40,
                     decoration: const BoxDecoration(
                       color: AppTheme.green,
@@ -176,11 +184,11 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
 
                     )),
                 Positioned(
-                  top: 2,
+                  top: 0,
                   right: 22,
                   child: Container(
-                      height:120,
-                      width:3,
+                      height:500,
+                      width:2,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(100)),
                         color: AppTheme.white,
@@ -207,7 +215,7 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("لقد تم قبول طلبك رقم 7676",   style: GoogleFonts.getFont(
+                  Text("رقم الطلب  NAQ-3434",   style: GoogleFonts.getFont(
                     AppTheme.fontName,
                     textStyle: TextStyle(
                       fontFamily: AppTheme.fontName,
@@ -227,15 +235,53 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                       color: AppTheme.grey,
                     ),
                   )),
+                    Row(children: [
+                      Text("حالة الطلب : تم التجهيز",   style: GoogleFonts.getFont(
+                        AppTheme.fontName,
+                        textStyle: TextStyle(
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          letterSpacing: 0.5,
+                          color: AppTheme.white,
+                        ),
+                      ),),
+                         SizedBox(width: MediaQuery.of(context).size.width/12,),
+                      Container(
+                        width: MediaQuery.of(context).size.width/3,
+                        decoration: const BoxDecoration(
+                          color: AppTheme.white,
+                        ),
+                        child: GestureDetector(
+                          onTap: ()async{
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderDetails()),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text('عرض تفاصيل الطلب' ,
+                              style: GoogleFonts.getFont(
+                                AppTheme.fontName,
+                                textStyle: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 10,
+                                  letterSpacing: 0.5,
+                                  color: AppTheme.green,
+                                ),
+                              ),)),
+                          ),
+                        ),
+                      )
+                    ],),
 
                 ],
               ),
             ),
-            SizedBox(width: MediaQuery.of(context).size.width/8,),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:Icon(Icons.arrow_downward_sharp , size: 30,color: AppTheme.white,),
-            ),
+
 
           ],),
         ),

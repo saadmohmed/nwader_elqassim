@@ -1,4 +1,3 @@
-
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
@@ -15,8 +14,14 @@ import '../custom_drawer/Drawer.dart';
 import '../model/Ad.dart';
 
 class ProductDetails extends StatefulWidget {
-  final String id ;
-  const ProductDetails({Key? key, this.animationController , required this.id}) : super(key: key);
+  final String id;
+  final dynamic config;
+  const ProductDetails(
+      {Key? key,
+      this.animationController,
+      required this.id,
+      required this.config})
+      : super(key: key);
 
   final AnimationController? animationController;
 
@@ -39,7 +44,7 @@ class _ProductDetailsState extends State<ProductDetails>
 
   dynamic _state = '';
   bool status = true;
-  int quantity = 0;
+  int quantity = 1;
   bool is_sluted = false;
   bool alive = false;
   bool covered = false;
@@ -47,47 +52,49 @@ class _ProductDetailsState extends State<ProductDetails>
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Scaffold(
-        key:_key,
+        key: _key,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: AppTheme.white,
           centerTitle: true,
-          title: Text('' ,    style: GoogleFonts.getFont(
-            AppTheme.fontName,
-            textStyle: TextStyle(
-              fontFamily: AppTheme.fontName,
-              fontWeight: FontWeight.w700,
-              fontSize: 20,
-              color: AppTheme.green,
+          title: Text(
+            '',
+            style: GoogleFonts.getFont(
+              AppTheme.fontName,
+              textStyle: TextStyle(
+                fontFamily: AppTheme.fontName,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                color: AppTheme.green,
+              ),
             ),
-          ), ),
-          leading:   GestureDetector(
+          ),
+          leading: GestureDetector(
             onTap: () async {
               _key.currentState!.openDrawer();
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child:
-              Image.asset('assets/icons/menu-icon.png'),
+              child: Image.asset('assets/icons/menu-icon.png'),
             ),
           ),
           actions: [
-
             GestureDetector(
               onTap: () async {
-                Navigator.pop(context,true);
+                Navigator.pop(context, true);
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.arrow_forward_sharp  , color: AppTheme.green,),
+                child: Icon(
+                  Icons.arrow_forward_sharp,
+                  color: AppTheme.green,
+                ),
               ),
             ),
           ],
         ),
-
         drawer: DrawerWidget(),
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
@@ -126,111 +133,21 @@ class _ProductDetailsState extends State<ProductDetails>
                     // item: Row(
                     //   children: [Text('asdasds')],
                     // ))
-                    cuts.add(DropItem(
-                      key:'1',
-                      item: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                style: GoogleFonts.getFont(
-                                  AppTheme.fontName,
-                                  textStyle: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: AppTheme.nearlyBlack,
-                                  ),
-                                ),
-                                'ارباع'),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width /7,
-                          ),
-                          Text(
-                              style: GoogleFonts.getFont(
-                                AppTheme.fontName,
-                                textStyle: TextStyle(
-                                  fontFamily: AppTheme.fontName,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                  color: AppTheme.orange,
-                                ),
-                              ),
-                              '')
-                        ],
-                      ),
-                    ));
-                    cuts.add(DropItem(
-                      key:'3',
-                      item: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                style: GoogleFonts.getFont(
-                                  AppTheme.fontName,
-                                  textStyle: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: AppTheme.nearlyBlack,
-                                  ),
-                                ),
-                                'نصفان'),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width /7,
-                          ),
-                          Text(
-                              style: GoogleFonts.getFont(
-                                AppTheme.fontName,
-                                textStyle: TextStyle(
-                                  fontFamily: AppTheme.fontName,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                  color: AppTheme.orange,
-                                ),
-                              ),
-                              '')
-                        ],
-                      ),
-                    ));
-                    cuts.add(DropItem(
-                      key:'3',
-                      item: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                style: GoogleFonts.getFont(
-                                  AppTheme.fontName,
-                                  textStyle: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: AppTheme.nearlyBlack,
-                                  ),
-                                ),
-                                'اثلاث'),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width /7,
-                          ),
-                          Text(
-                              style: GoogleFonts.getFont(
-                                AppTheme.fontName,
-                                textStyle: TextStyle(
-                                  fontFamily: AppTheme.fontName,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                  color: AppTheme.orange,
-                                ),
-                              ),
-                              '')
-                        ],
-                      ),
-                    ));
+
+                    if (widget.config["cut_types"] != null) {
+                      widget.config["cut_types"].forEach((element) {
+                        cuts.add(DropItem(
+                            key: element['id'].toString(),
+                            item: Row(
+                              children: [
+                                SizedBox(width: 5,),
+                                Text(element['name'])
+                              ],
+                            )));
+                      });
+                    } else {
+                      cuts = [];
+                    }
 
                     data["variants"].forEach((element) {
                       countryList.add(DropItem(
@@ -252,7 +169,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                   'الوزن ${element['weight'].toString()}  ${element['weight_to'].toString()}  كيلو'),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width /7,
+                              width: MediaQuery.of(context).size.width / 7,
                             ),
                             Text(
                                 style: GoogleFonts.getFont(
@@ -285,7 +202,6 @@ class _ProductDetailsState extends State<ProductDetails>
                         child: SingleChildScrollView(
                           child: Stack(
                             alignment: Alignment.center,
-
                             children: [
                               Container(
                                 height: 720,
@@ -299,36 +215,52 @@ class _ProductDetailsState extends State<ProductDetails>
                                   )),
                               Positioned(
                                   top: 230,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        data['name'].toString(),
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 25,
-                                            color: AppTheme.green,
+                                  child: Padding(
+
+                                    padding: const EdgeInsets.only(left:8.0 ,right: 10.0),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width:
+                                          MediaQuery.of(context).size.width /
+                                          1.5,
+                                          child: Text(
+                                            data['name'].toString(),
+                                            style: GoogleFonts.getFont(
+                                              AppTheme.fontName,
+                                              textStyle: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 23,
+                                                color: AppTheme.green,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width /6,
-                                      ),
-                                      Text(
-                                        data['price'].toString() + ' ر.س',
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 25,
-                                            color: AppTheme.orange,
+                                        // SizedBox(
+                                        //   width:
+                                        //       MediaQuery.of(context).size.width /
+                                        //           10,
+                                        // ),
+                                        SizedBox(
+                                          width:
+                                          MediaQuery.of(context).size.width /
+                                              3.6,
+                                          child: Text(
+                                            data['price'].toString() + ' ر.س',
+                                            style: GoogleFonts.getFont(
+                                              AppTheme.fontName,
+                                              textStyle: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20,
+                                                color: AppTheme.orange,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   )),
                               Positioned(
                                   top: 280,
@@ -352,7 +284,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                             ),
                                           ),
                                           QuantityInput(
-                                            inputWidth: 40,
+                                              inputWidth: 40,
                                               value: quantity,
                                               onChanged: (value) {
                                                 setState(() {
@@ -362,9 +294,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                               })
                                         ],
                                       ),
-
                                       Padding(
-                                        padding: const EdgeInsets.only(right:8.0,left:8.0),
+                                        padding: const EdgeInsets.only(
+                                            right: 8.0, left: 8.0),
                                         child: Container(
                                           child: Row(
                                             children: [
@@ -434,53 +366,58 @@ class _ProductDetailsState extends State<ProductDetails>
                                   ),
                                 ),
                               ),
-                              data['has_variants'] == 1 ?  Positioned(
-                                  top: 370,
-                                  left: 10,
-                                  right: 10,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: Container(
-                                        width: MediaQuery.of(context)
-                                            .copyWith()
-                                            .size
-                                            .width,
-                                        decoration: ShapeDecoration(
-                                          color: AppTheme.white,
-                                          shape: RoundedRectangleBorder(),
-                                        ),
-                                        child: Container(
-                                          child: DropdownButton<DropItem>(
-                                            // isDense: true,
-                                            isExpanded: true,
-                                            value: _selectedValue,
-                                            icon:
-                                                Icon(Icons.keyboard_arrow_down),
-                                            iconSize: 30,
-                                            elevation: 20,
-                                            style:
-                                                TextStyle(color: Colors.black),
+                              data['has_variants'] == 1
+                                  ? Positioned(
+                                      top: 370,
+                                      left: 10,
+                                      right: 10,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .copyWith()
+                                                .size
+                                                .width,
+                                            decoration: ShapeDecoration(
+                                              color: AppTheme.white,
+                                              shape: RoundedRectangleBorder(),
+                                            ),
+                                            child: Container(
+                                              child: DropdownButton<DropItem>(
+                                                // isDense: true,
+                                                isExpanded: true,
+                                                value: _selectedValue,
+                                                icon: Icon(
+                                                    Icons.keyboard_arrow_down),
+                                                iconSize: 30,
+                                                elevation: 20,
+                                                style: TextStyle(
+                                                    color: Colors.black),
 
-                                            onChanged: (DropItem? newValue) {
-                                              setState(() {
-                                                _selectedValue = newValue;
-                                                print(newValue);
-                                              });
-                                            },
-                                            items: countryList.map<
-                                                    DropdownMenuItem<DropItem>>(
-                                                (DropItem value) {
-                                              return DropdownMenuItem<DropItem>(
-                                                value: value,
-                                                child: value.item,
-                                              );
-                                            }).toList(),
+                                                onChanged:
+                                                    (DropItem? newValue) {
+                                                  setState(() {
+                                                    _selectedValue = newValue;
+                                                    print(newValue);
+                                                  });
+                                                },
+                                                items: countryList.map<
+                                                        DropdownMenuItem<
+                                                            DropItem>>(
+                                                    (DropItem value) {
+                                                  return DropdownMenuItem<
+                                                      DropItem>(
+                                                    value: value,
+                                                    child: value.item,
+                                                  );
+                                                }).toList(),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  )) : SizedBox(),
+                                      ))
+                                  : SizedBox(),
                               Positioned(
                                 top: 440,
                                 right: 10,
@@ -499,7 +436,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                 ),
                               ),
                               Positioned(
-                                  top: 470,
+                                  top: 480,
                                   right: 10,
                                   left: 10,
                                   child: Padding(
@@ -545,83 +482,90 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ),
                                     ),
                                   )),
-                              Positioned(
-                                  // left: 1?0,
-                                  top: 540,
-                                  // right: 10,
-                                  child: Container(
-
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width/4,
-
-                                          child: Text(
-                                            'بدون تغليف ',
-                                            textAlign: TextAlign.right,
-
-                                            style: GoogleFonts.getFont(
-                                              AppTheme.fontName,
-                                              textStyle: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 16,
-                                                color: AppTheme.darkerText,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.all(8.0),
-                                          child: FlutterSwitch(
-                                            width: 80,
-                                            height: 40,
-                                            toggleSize: 45,
-                                            inactiveColor: AppTheme.grey,
-                                            activeColor: AppTheme.orange,
-                                            value: covered,
-                                            onToggle: (bool value) {
-                                              setState(() {
-                                                covered = value;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width/5,
-                                          child: Text(
-                                            'مع تغليف',
-                                            textAlign: TextAlign.left,
-
-                                            style: GoogleFonts.getFont(
-                                              AppTheme.fontName,
-                                              textStyle: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 16,
-                                                color: AppTheme.darkerText,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                              // Positioned(
+                              //     // left: 1?0,
+                              //     top: 540,
+                              //     // right: 10,
+                              //     child: Container(
+                              //       child: Row(
+                              //         mainAxisAlignment:
+                              //             MainAxisAlignment.center,
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.center,
+                              //         children: [
+                              //           SizedBox(
+                              //             width: MediaQuery.of(context)
+                              //                     .size
+                              //                     .width /
+                              //                 4,
+                              //             child: Text(
+                              //               'بدون تغليف ',
+                              //               textAlign: TextAlign.right,
+                              //               style: GoogleFonts.getFont(
+                              //                 AppTheme.fontName,
+                              //                 textStyle: TextStyle(
+                              //                   fontFamily: AppTheme.fontName,
+                              //                   fontWeight: FontWeight.w700,
+                              //                   fontSize: 16,
+                              //                   color: AppTheme.darkerText,
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //           Padding(
+                              //             padding: const EdgeInsets.all(8.0),
+                              //             child: FlutterSwitch(
+                              //               width: 80,
+                              //               height: 40,
+                              //               toggleSize: 45,
+                              //               inactiveColor: AppTheme.grey,
+                              //               activeColor: AppTheme.orange,
+                              //               value: covered,
+                              //               onToggle: (bool value) {
+                              //                 setState(() {
+                              //                   covered = value;
+                              //                 });
+                              //               },
+                              //             ),
+                              //           ),
+                              //           SizedBox(
+                              //             width: MediaQuery.of(context)
+                              //                     .size
+                              //                     .width /
+                              //                 5,
+                              //             child: Text(
+                              //               'مع تغليف',
+                              //               textAlign: TextAlign.left,
+                              //               style: GoogleFonts.getFont(
+                              //                 AppTheme.fontName,
+                              //                 textStyle: TextStyle(
+                              //                   fontFamily: AppTheme.fontName,
+                              //                   fontWeight: FontWeight.w700,
+                              //                   fontSize: 16,
+                              //                   color: AppTheme.darkerText,
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     )),
                               Positioned(
                                   // left: 10,
-                                  top: 590,
+                                  top: 570,
                                   // right: 100,
                                   child: Container(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width/5,
-
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              5,
                                           child: Text(
                                             'مسلوخ',
                                             textAlign: TextAlign.right,
@@ -637,8 +581,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(8.0),
                                           child: FlutterSwitch(
                                             width: 80,
                                             height: 40,
@@ -654,12 +597,13 @@ class _ProductDetailsState extends State<ProductDetails>
                                           ),
                                         ),
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width/7,
-
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6.4,
                                           child: Text(
                                             'مشلوط',
                                             textAlign: TextAlign.left,
-
                                             style: GoogleFonts.getFont(
                                               AppTheme.fontName,
                                               textStyle: TextStyle(
@@ -674,80 +618,91 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ],
                                     ),
                                   )),
+                              Positioned(
+                                  top: 660,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 60,
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(2)),
+                                      color: AppTheme.green,
+                                    ),
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          print('Product ID==>' +
+                                              data['id'].toString());
+                                          print('Quantity==>' +
+                                              quantity.toString());
+                                          print('Weight===>' +
+                                              _selectedValue!.key);
+                                          print('Cut===>' + _selectedCut!.key);
+                                          print('Suated===>' +
+                                              is_sluted.toString());
+                                          print('alive===>' + alive.toString());
+                                          print('without_c===>' +
+                                              without_c.toString());
+                                          print('covered===>' +
+                                              without_c.toString());
 
-                          Positioned(
-                                    top: 660,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 60,
-                                      decoration: const BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(2)),
-                                        color: AppTheme.green,
-                                      ),
-                                      child: Center(
-                                        child:        GestureDetector(
-                                          onTap: ()async{
-                                            print('Product ID==>'+data['id'].toString());
-                                            print('Quantity==>'+quantity.toString());
-                                            print('Weight===>'+_selectedValue!.key);
-                                            print('Cut===>'+_selectedCut!.key);
-                                            print('Suated===>'+is_sluted.toString());
-                                            print('alive===>'+alive.toString());
-                                            print('without_c===>'+without_c.toString());
-                                            print('covered===>'+without_c.toString());
-
-
-                                            // bool alive = false;
-                                            // bool covered = false;
-                                            // bool without_c = false;
-                                            dynamic token = await _api.get_token();
-                                            if(token == null){
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => Login()),
-                                              );
-                                            }
-                                            dynamic p = await _api.add_to_cart(data["id"].toString());
-                                            if(p['status'] == true){
-
-                                              Alert(
-                                                context: context,
-                                                type: AlertType.success,
-                                                title: "",
-                                                desc:p['response_message']!,
-                                                buttons: [
-                                                  DialogButton(
-                                                    child: Text(
-                                                      'متابعة',
-                                                      style: TextStyle(
-                                                          color: Colors.white, fontSize: 20),
-                                                    ),
-                                                    onPressed: () => Navigator.pop(context),
-                                                    width: 120,
-                                                  )
-                                                ],
-                                              ).show();
-
-                                            }
-                                          },
-                                          child: Text(
-                                            'اضف الي السله',
-                                            style: GoogleFonts.getFont(
-                                              AppTheme.fontName,
-                                              textStyle: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 25,
-                                                color: AppTheme.white,
-                                              ),
+                                          // bool alive = false;
+                                          // bool covered = false;
+                                          // bool without_c = false;
+                                          dynamic token =
+                                              await _api.get_token();
+                                          if (token == null) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Login()),
+                                            );
+                                          }
+                                          dynamic p = await _api.add_to_cart(
+                                              data["id"].toString(),
+                                              is_sluted.toString(),
+                                              2,
+                                              _selectedCut?.key.toString(),
+                                              quantity,
+                                              _selectedValue?.key.toString());
+                                          if (p['status'] == true) {
+                                            Alert(
+                                              context: context,
+                                              type: AlertType.success,
+                                              title: "",
+                                              desc: p['response_message']!,
+                                              buttons: [
+                                                DialogButton(
+                                                  child: Text(
+                                                    'متابعة',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20),
+                                                  ),
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  width: 120,
+                                                )
+                                              ],
+                                            ).show();
+                                          }
+                                        },
+                                        child: Text(
+                                          'اضف الي السله',
+                                          style: GoogleFonts.getFont(
+                                            AppTheme.fontName,
+                                            textStyle: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 25,
+                                              color: AppTheme.white,
                                             ),
                                           ),
                                         ),
                                       ),
-                                    )),
-
+                                    ),
+                                  )),
                             ],
                           ),
                         ),

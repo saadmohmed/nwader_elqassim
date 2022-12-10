@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nwader/CONSTANT.dart';
 import 'package:quantity_input/quantity_input.dart';
 
 import '../Services/ApiManager.dart';
@@ -92,7 +93,6 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
             if(data['products'] != null){
               return Column(
                   children: data['products'].map<Widget>((e) {
-                    print(e['price']);
                     WidgetsBinding.instance.addPostFrameCallback((_){
 
                       setState(() {
@@ -103,191 +103,194 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
                       });
                     });
 
-                    return   Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: AppTheme.background_c,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              child: Column(
-                                children: [
-                                  Container(
-                                      width: 100,
-                                      height: 80,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(1)),
-                                      ),
-                                      child: Image.network(
-                                          '${e["image_url"]}')),
-                                  SizedBox(height: 10,),
-                                  Container(
-                                      width: 100,
-                                      height: 35,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                        color: AppTheme.orange,
-                                      ),
-                                      child: Center(
-                                        child: Padding(
-                                          padding:
-                                          const EdgeInsets.all(8.0),
-                                          child: InkWell(
-                                            child: Text(
-                                              'حذف من السلة',
-                                              style: GoogleFonts.getFont(
-                                                AppTheme.fontName,
-                                                textStyle: TextStyle(
-                                                  fontFamily:
+                    return   Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: AppTheme.background_c,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                        width: 100,
+                                        height: 80,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(1)),
+                                        ),
+                                        child: Image.network(
+                                            BASE_URL+'/uploads/${e["image"]}')),
+                                    SizedBox(height: 10,),
+                                    Container(
+                                        width: 100,
+                                        height: 35,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: AppTheme.orange,
+                                        ),
+                                        child: Center(
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.all(8.0),
+                                            child: InkWell(
+                                              child: Text(
+                                                'حذف من السلة',
+                                                style: GoogleFonts.getFont(
                                                   AppTheme.fontName,
-                                                  fontWeight:
-                                                  FontWeight.w700,
-                                                  fontSize: 12,
-                                                  color: AppTheme.white,
+                                                  textStyle: TextStyle(
+                                                    fontFamily:
+                                                    AppTheme.fontName,
+                                                    fontWeight:
+                                                    FontWeight.w300,
+                                                    fontSize: 9,
+                                                    color: AppTheme.white,
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ))
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right:20.0),
-                              child: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,                                      children: [
-
-                                  Text(
-                                    textAlign:TextAlign.start,
-                                    '${e["name"]}',
-                                    style: GoogleFonts.getFont(
-                                      AppTheme.fontName,
-                                      textStyle: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12,
-                                        color: AppTheme.darkerText,
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '${e["available_weights"]}',
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: AppTheme.darkerText,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        '${e["price"]} ر.س ',
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: AppTheme.orange,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "مذبوح",
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: AppTheme.darkerText,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 50,),
-                                      Text(
-                                        "التقطيع ارباع ",
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: AppTheme.darkerText,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "مع التغليف",
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: AppTheme.darkerText,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 50,),
-                                      Text(
-                                        " مسلوخ ",
-                                        style: GoogleFonts.getFont(
-                                          AppTheme.fontName,
-                                          textStyle: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: AppTheme.darkerText,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 80,
-                                      ),
-                                      Container(
-                                        color: AppTheme.green,
-                                        child: QuantityInput(
-                                          iconColor: AppTheme.orange,
-                                          inputWidth: 50,
-                                          buttonColor:AppTheme.white ,
-
-                                          value: 1,
-                                          onChanged: (String) {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        ))
+                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right:20.0),
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,                                      children: [
+
+                                    Text(
+                                      textAlign:TextAlign.start,
+                                      '${e["name_ar"]}',
+                                      style: GoogleFonts.getFont(
+                                        AppTheme.fontName,
+                                        textStyle: TextStyle(
+                                          fontFamily: AppTheme.fontName,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                          color: AppTheme.darkerText,
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '${e["weight"]} - ${e["weight_to"]}',
+                                          style: GoogleFonts.getFont(
+                                            AppTheme.fontName,
+                                            textStyle: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12,
+                                              color: AppTheme.darkerText,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 20,),
+                                        Text(
+                                          '${e["vprice"]} ر.س ',
+                                          style: GoogleFonts.getFont(
+                                            AppTheme.fontName,
+                                            textStyle: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12,
+                                              color: AppTheme.orange,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "مذبوح",
+                                          style: GoogleFonts.getFont(
+                                            AppTheme.fontName,
+                                            textStyle: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12,
+                                              color: AppTheme.darkerText,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 50,),
+                                        Text(
+                                          "التقطيع ارباع ",
+                                          style: GoogleFonts.getFont(
+                                            AppTheme.fontName,
+                                            textStyle: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12,
+                                              color: AppTheme.darkerText,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "مع التغليف",
+                                          style: GoogleFonts.getFont(
+                                            AppTheme.fontName,
+                                            textStyle: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12,
+                                              color: AppTheme.darkerText,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 50,),
+                                        Text(
+                                          " مسلوخ ",
+                                          style: GoogleFonts.getFont(
+                                            AppTheme.fontName,
+                                            textStyle: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12,
+                                              color: AppTheme.darkerText,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 80,
+                                        ),
+                                        Container(
+                                          color: AppTheme.green,
+                                          child: QuantityInput(
+                                            iconColor: AppTheme.orange,
+                                            inputWidth: 50,
+                                            buttonColor:AppTheme.white ,
+
+                                            value: 1,
+                                            onChanged: (String) {},
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -473,12 +476,7 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
+
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {

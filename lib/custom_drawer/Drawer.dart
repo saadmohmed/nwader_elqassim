@@ -2,6 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nwader/home_screen/info_page.dart';
+import 'package:nwader/home_screen/myorders.dart';
 
 import '../Services/ApiManager.dart';
 import '../app_theme.dart';
@@ -163,50 +165,74 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Image.asset('assets/icons/info-icon.png'),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'عن التطبيق',
-                      style: GoogleFonts.getFont(
-                        AppTheme.fontName,
-                        textStyle: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          letterSpacing: 0.5,
-                          color: AppTheme.white,
-                        ),
+                GestureDetector(
+                  onTap: ()async{
+                  dynamic data = await  _apiProvider.getPage('get_about_page');
+                  if(data['status'] == true){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PageInfo(page_title: data['page']['title'], page_body:data['page']['text'])),
+                    );
+                  }
+
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset('assets/icons/info-icon.png'),
+                      SizedBox(
+                        width: 10,
                       ),
-                    )
-                  ],
+                      Text(
+                        'عن التطبيق',
+                        style: GoogleFonts.getFont(
+                          AppTheme.fontName,
+                          textStyle: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            letterSpacing: 0.5,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Image.asset('assets/icons/info-icon.png'),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'سياسة التطبيق',
-                      style: GoogleFonts.getFont(
-                        AppTheme.fontName,
-                        textStyle: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          letterSpacing: 0.5,
-                          color: AppTheme.white,
-                        ),
+                GestureDetector(
+                  onTap: ()async{
+                    dynamic data = await  _apiProvider.getPage('get_polices_page');
+                    if(data['status'] == true){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PageInfo(page_title: data['page']['title'], page_body:data['page']['text'])),
+                      );
+                    }
+
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset('assets/icons/info-icon.png'),
+                      SizedBox(
+                        width: 10,
                       ),
-                    )
-                  ],
+                      Text(
+                        'سياسة التطبيق',
+                        style: GoogleFonts.getFont(
+                          AppTheme.fontName,
+                          textStyle: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            letterSpacing: 0.5,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -235,26 +261,37 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Image.asset('assets/icons/order-icon-2.png'),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'طلباتي',
-                      style: GoogleFonts.getFont(
-                        AppTheme.fontName,
-                        textStyle: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          letterSpacing: 0.5,
-                          color: AppTheme.white,
-                        ),
+                GestureDetector(
+                  onTap: ()async{
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyOrders()),
+                      );
+
+
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset('assets/icons/order-icon-2.png'),
+                      SizedBox(
+                        width: 10,
                       ),
-                    )
-                  ],
+                      Text(
+                        'طلباتي',
+                        style: GoogleFonts.getFont(
+                          AppTheme.fontName,
+                          textStyle: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            letterSpacing: 0.5,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 10,

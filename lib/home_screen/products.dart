@@ -123,14 +123,19 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
 
                           return GestureDetector(
                             onTap: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductDetails(
-                                      animationController: widget.animationController,
-                                      id: e["id"].toString(),
-                                    )),
-                              );
+                              ApiProvider _api = new ApiProvider();
+                              dynamic config = await _api.get_config();
+                              if(config['status'] == true){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductDetails(
+                                        animationController: widget.animationController,
+                                        id: e["id"],config: config,
+                                      )),
+                                );
+                              }
+
                             },
                             child: MealsView(
                               animationController: widget.animationController,
