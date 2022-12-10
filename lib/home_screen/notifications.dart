@@ -243,7 +243,7 @@ bool _visiable = false;
                     ],
                   ),
                 ),
-                SizedBox(width: MediaQuery.of(context).size.width/4,),
+                SizedBox(width: MediaQuery.of(context).size.width/4.5,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child:Icon(Icons.arrow_downward_sharp , size: 30,color: AppTheme.white,),
