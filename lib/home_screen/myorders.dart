@@ -119,9 +119,36 @@ class _MyOrdersState extends State<MyOrders>
             children: [
               Column(
                 children: <Widget>[
+                  FutureBuilder(
+                    future: _api.get_user_order(),
+                    builder: (context, snapshot) {
+                      // print(data);
+                      if(snapshot.hasData){
+                        dynamic data = snapshot.data ;
+                        if(data['orders'] != null){
+                          return Column(
+                              children: data['orders'].map<Widget>((e) {
+                                WidgetsBinding.instance.addPostFrameCallback((_){
 
-OrderBody(),
-                  OrderBody(),
+
+                                });
+
+                                return   OrderBody(id: e['id'].toString(), idText: e['order_number'].toString(), title: '', body: '', created_at: e['created_at'],create_text: e['create_text'],status:e['status']);
+                              }).toList()
+
+
+
+                          );
+                        }else{
+                          return Center(child: Text("الطلبات فارغة"),);
+                        }
+
+                      }else{
+                        return Center(child: CircularProgressIndicator());
+                      }
+
+                    },
+                  ),
 
 
 
@@ -139,7 +166,16 @@ OrderBody(),
 }
 
 class OrderBody extends StatefulWidget {
-  const OrderBody({Key? key}) : super(key: key);
+  const OrderBody({Key? key ,required this.idText, required this.title,required this.create_text ,required this.id, required this.body , required this.created_at , required this.status}) : super(key: key);
+  final String title ;
+  final String id ;
+  final String idText ;
+
+  final String create_text ;
+  final String status ;
+
+  final String body ;
+  final String created_at ;
 
   @override
   State<OrderBody> createState() => _OrderBodyState();
@@ -215,7 +251,7 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("رقم الطلب  NAQ-3434",   style: GoogleFonts.getFont(
+                  Text(" رقم الطلب  ${widget.idText} ",   style: GoogleFonts.getFont(
                     AppTheme.fontName,
                     textStyle: TextStyle(
                       fontFamily: AppTheme.fontName,
@@ -225,7 +261,7 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                       color: AppTheme.white,
                     ),
                   ),),
-                  Text("12/98/2022     98:98 am",   style: GoogleFonts.getFont(
+                  Text("${widget.created_at}     ${widget.create_text}",   style: GoogleFonts.getFont(
                     AppTheme.fontName,
                     textStyle: TextStyle(
                       fontFamily: AppTheme.fontName,
@@ -236,7 +272,7 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                     ),
                   )),
                     Row(children: [
-                      Text("حالة الطلب : تم التجهيز",   style: GoogleFonts.getFont(
+                      Text("حالة الطلب :  ${widget.status}",   style: GoogleFonts.getFont(
                         AppTheme.fontName,
                         textStyle: TextStyle(
                           fontFamily: AppTheme.fontName,
@@ -254,11 +290,18 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                         ),
                         child: GestureDetector(
                           onTap: ()async{
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OrderDetails()),
-                            );
+
+                            ApiProvider _api = new ApiProvider();
+                            dynamic data = await _api.get_order(widget.id.toString());
+                            if(data['status'] == true){
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OrderDetails(order: data['order'],)),
+                              );
+                            }
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),

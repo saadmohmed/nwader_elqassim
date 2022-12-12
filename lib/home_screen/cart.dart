@@ -93,6 +93,8 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
             if(data['products'] != null){
               return Column(
                   children: data['products'].map<Widget>((e) {
+                    total = total + e["vprice"];
+
                     WidgetsBinding.instance.addPostFrameCallback((_){
 
                       setState(() {
@@ -431,9 +433,10 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
                 bottom: 0,
                 child: GestureDetector(
                   onTap: () {
+                    dynamic total = 0;
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddOrder()),
+                      MaterialPageRoute(builder: (context) => AddOrder(total: total.toString(),)),
                     );
                   },
                   child: Container(
@@ -489,97 +492,4 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
     );
   }
 
-  Widget getAppBarUI() {
-    return Column(
-      children: <Widget>[
-        AnimatedBuilder(
-          animation: animationController!,
-          builder: (BuildContext context, Widget? child) {
-            return FadeTransition(
-              opacity: topBarAnimation!,
-              child: Transform(
-                transform: Matrix4.translationValues(
-                    0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32.0),
-                    ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 16,
-                            right: 0,
-                            top: 16 - 8.0 * topBarOpacity,
-                            bottom: 12 - 8.0 * topBarOpacity),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () async {
-                                print('opended');
-                                Scaffold.of(context).openDrawer();
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child:
-                                    Image.asset('assets/icons/menu-icon.png'),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 55,
-                            ),
-                            SizedBox(
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Text(
-                                  'سلة المشتريات',
-                                  style: GoogleFonts.getFont(
-                                    AppTheme.fontName,
-                                    textStyle: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20,
-                                      color: AppTheme.green,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: Icon(Icons.arrow_forward_sharp),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        )
-      ],
-    );
-  }
 }

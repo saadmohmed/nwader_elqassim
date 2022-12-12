@@ -9,6 +9,8 @@ import '../custom_drawer/Drawer.dart';
 import 'notifications.dart';
 
 class OrderDetails extends StatefulWidget {
+  const OrderDetails({Key? key , required this.order}) : super(key: key);
+  final dynamic order ;
   @override
   State<OrderDetails> createState() => _OrderDetailsState();
 }
@@ -131,7 +133,7 @@ class _OrderDetailsState extends State<OrderDetails>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("رقم الطلب  NAQ-3434",   style: GoogleFonts.getFont(
+                      Text("رقم الطلب ${widget.order['order_number']}",   style: GoogleFonts.getFont(
                         AppTheme.fontName,
                         textStyle: TextStyle(
                           fontFamily: AppTheme.fontName,
@@ -158,7 +160,7 @@ class _OrderDetailsState extends State<OrderDetails>
                          ),
                          SizedBox(
                            width: MediaQuery.of(context).size.width/4,
-                           child: Text("جاري التجهيز",   style: GoogleFonts.getFont(
+                           child: Text("${widget.order['status']} ",   style: GoogleFonts.getFont(
                              AppTheme.fontName,
                              textStyle: TextStyle(
                                fontFamily: AppTheme.fontName,
@@ -177,15 +179,15 @@ class _OrderDetailsState extends State<OrderDetails>
                            ),
                            child: GestureDetector(
                              onTap: ()async{
-                               Navigator.push(
-                                 context,
-                                 MaterialPageRoute(
-                                     builder: (context) => OrderDetails()),
-                               );
+                               // Navigator.push(
+                               //   context,
+                               //   MaterialPageRoute(
+                               //       builder: (context) => OrderDetails()),
+                               // );
                              },
                              child: Padding(
                                padding: const EdgeInsets.all(8.0),
-                               child: Center(child: Icon(Icons.edit_note_rounded ,color: AppTheme.green,)),
+                               child: Center(),
                              ),
                            ),
                          )
@@ -221,7 +223,7 @@ class _OrderDetailsState extends State<OrderDetails>
                             color: AppTheme.darkText,
                           ),
                         ),),
-                        Text("الاسم : فلان ابن فلان",   style: GoogleFonts.getFont(
+                        Text("الاسم : ${widget.order['name']}",   style: GoogleFonts.getFont(
                           AppTheme.fontName,
                           textStyle: TextStyle(
                             fontFamily: AppTheme.fontName,
@@ -236,7 +238,7 @@ class _OrderDetailsState extends State<OrderDetails>
                           children: [
                             SizedBox(
                               width: MediaQuery.of(context).size.width/4,
-                              child: Text("الجوال :",   style: GoogleFonts.getFont(
+                              child: Text("الجوال : ",   style: GoogleFonts.getFont(
                                 AppTheme.fontName,
                                 textStyle: TextStyle(
                                   fontFamily: AppTheme.fontName,
@@ -249,7 +251,7 @@ class _OrderDetailsState extends State<OrderDetails>
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width/4,
-                              child: Text("5454545454",   style: GoogleFonts.getFont(
+                              child: Text("${widget.order['mobile']}",   style: GoogleFonts.getFont(
                                 AppTheme.fontName,
                                 textStyle: TextStyle(
                                   fontFamily: AppTheme.fontName,
@@ -268,11 +270,11 @@ class _OrderDetailsState extends State<OrderDetails>
                               ),
                               child: GestureDetector(
                                 onTap: ()async{
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => OrderDetails()),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => OrderDetails()),
+                                  // );
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -283,7 +285,7 @@ class _OrderDetailsState extends State<OrderDetails>
 
                           ],
                         ),
-                        Text("العنوان",   style: GoogleFonts.getFont(
+                        Text("الوقت المحتمل للتوصيل",   style: GoogleFonts.getFont(
                           AppTheme.fontName,
                           textStyle: TextStyle(
                             fontFamily: AppTheme.fontName,
@@ -297,7 +299,7 @@ class _OrderDetailsState extends State<OrderDetails>
                           children: [
                             SizedBox(
                               width: MediaQuery.of(context).size.width/1.5,
-                              child: Text("عنوان تفصيلي تفصيلي تفصيلي تفصيلي تفصيلي تفصيلي تفصيلي تفصيلي",   style: GoogleFonts.getFont(
+                              child: Text("${widget.order['expected_delivery_date']}",   style: GoogleFonts.getFont(
                                 AppTheme.fontName,
                                 textStyle: TextStyle(
                                   fontFamily: AppTheme.fontName,
@@ -317,11 +319,11 @@ class _OrderDetailsState extends State<OrderDetails>
                               ),
                               child: GestureDetector(
                                 onTap: ()async{
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => OrderDetails()),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => OrderDetails()),
+                                  // );
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -349,14 +351,15 @@ class _OrderDetailsState extends State<OrderDetails>
 }
 
 class OrderBody extends StatefulWidget {
-  const OrderBody({Key? key}) : super(key: key);
-
+  const OrderBody({Key? key , required this.order}) : super(key: key);
+  final dynamic order ;
   @override
   State<OrderBody> createState() => _OrderBodyState();
 }
 
 class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
@@ -425,7 +428,7 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("رقم الطلب  NAQ-3434",   style: GoogleFonts.getFont(
+                  Text(" رقم الطلب  ${widget.order['order_number']}",   style: GoogleFonts.getFont(
                     AppTheme.fontName,
                     textStyle: TextStyle(
                       fontFamily: AppTheme.fontName,

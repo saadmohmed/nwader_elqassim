@@ -14,6 +14,12 @@ import '../custom_drawer/Drawer.dart';
 import '../model/Ad.dart';
 
 class AddOrder extends StatefulWidget {
+  final String total;
+  const AddOrder(
+      {Key? key,
+        required this.total,
+      })
+      : super(key: key);
   @override
   State<AddOrder> createState() => _AddOrderState();
 }
@@ -45,7 +51,7 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
   Icon arrow_down = Icon( Icons.arrow_downward_sharp , color: AppTheme.white,);
   Icon arrow_up = Icon( Icons.arrow_upward_sharp , color: AppTheme.white);
 
-  String? payment_method = 'cod';
+  String? payment_method = '1';
   String? address ;
   String? note = '';
 
@@ -323,7 +329,7 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
                             child: Row(
                               children: [
                                 Radio<String>(
-                                    value: 'online',
+                                    value: '2',
                                     groupValue: payment_method,
                                     // TRY THIS: Try setting the toggleable value to false and
                                     // see how that changes the behavior of the widget.
@@ -346,7 +352,7 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Radio<String>(
-                                    value: 'cod',
+                                    value: '1',
                                     groupValue: payment_method,
                                     // TRY THIS: Try setting the toggleable value to false and
                                     // see how that changes the behavior of the widget.
@@ -464,11 +470,16 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyOrders()),
-                  );
+                onTap: () async {
+                  dynamic data = await _api.add_order(address, payment_method, widget.total);
+                   if(data['status'] == true){
+                     print(data['response_message']);
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => MyOrders()),
+                     );
+                   }
+
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
