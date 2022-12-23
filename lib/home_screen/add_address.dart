@@ -431,7 +431,7 @@ class _AddAddressState extends State<AddAddress> {
                               context.loaderOverlay.hide();
                               dynamic total = 0;
 
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AddOrder(

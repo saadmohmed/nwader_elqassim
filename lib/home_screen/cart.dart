@@ -211,7 +211,7 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
               child: GestureDetector(
                 onTap: () {
                   dynamic total = 0;
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => AddOrder(total: total.toString(),)),
                   );

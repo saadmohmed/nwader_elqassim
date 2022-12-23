@@ -256,7 +256,7 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
                                                  dynamic areas = await _api.getAreas();
                                                  if(areas['status'] == true){
                                                    context.loaderOverlay.hide();
-                                                   Navigator.push(
+                                                   Navigator.pushReplacement(
                                                      context,
                                                      MaterialPageRoute(
                                                          builder: (context) => AddAddress(lat: p.latitude,lng: p.longitude,govs:areas['govs'])),
@@ -599,11 +599,11 @@ class _AddOrderState extends State<AddOrder> with TickerProviderStateMixin {
                       context.loaderOverlay.show();
 
                       dynamic data = await _api.add_order(address, payment_method, widget.total);
-print(data);
+
                       if(data['status'] == true){
                          context.loaderOverlay.hide();
 
-                         Navigator.push(
+                         Navigator.pushReplacement(
                            context,
                            MaterialPageRoute(builder: (context) => MyOrders()),
                          );
