@@ -16,12 +16,15 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
   late AnimationController? animationController;
+  ApiProvider _api = new ApiProvider();
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   double total = 0;
   int total_product = 0;
+  int quantity = 1;
+
   @override
   void initState() {
     animationController = AnimationController(
@@ -59,318 +62,7 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
   }
 
   void addAllListData() async {
-    const int count = 9;
-    ApiProvider _api = new ApiProvider();
 
-// add products
-    var i = 0;
-    listViews.add(FutureBuilder(
-        future: _api.get_categoires(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final Animation<double> animation =
-                Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-                    parent: animationController!,
-                    curve: Interval((1 / count) * i, 1.0,
-                        curve: Curves.fastOutSlowIn)));
-            animationController?.forward();
-            i++;
-            final data = snapshot.data as List;
-            var quantity;
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FadeTransition(
-                  opacity: animation!,
-                  child: Transform(
-                    transform:
-                        Matrix4.translationValues(10 * (1.0 - 0.8), 0.0, 0.0),
-                    child: FutureBuilder(
-                      future: _api.get_user_cart(),
-          builder: (context, snapshot) {
-          dynamic data = snapshot.data ;
-          if(snapshot.hasData){
-            if(data['products'] != null){
-              return Column(
-                  children: data['products'].map<Widget>((e) {
-                    total = total + e["vprice"];
-
-                    WidgetsBinding.instance.addPostFrameCallback((_){
-
-                      setState(() {
-                        // var price = int.parse(e['price']);
-                        //
-                        // total += 5 ;
-                        // total_product += 1;
-                      });
-                    });
-
-                    return   Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: AppTheme.background_c,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        width: 100,
-                                        height: 80,
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(1)),
-                                        ),
-                                        child: Image.network(
-                                            BASE_URL+'/uploads/${e["image"]}')),
-                                    SizedBox(height: 10,),
-                                    Container(
-                                        width: 100,
-                                        height: 35,
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          color: AppTheme.orange,
-                                        ),
-                                        child: Center(
-                                          child: Padding(
-                                            padding:
-                                            const EdgeInsets.all(8.0),
-                                            child: InkWell(
-                                              child: Text(
-                                                'حذف من السلة',
-                                                style: GoogleFonts.getFont(
-                                                  AppTheme.fontName,
-                                                  textStyle: TextStyle(
-                                                    fontFamily:
-                                                    AppTheme.fontName,
-                                                    fontWeight:
-                                                    FontWeight.w300,
-                                                    fontSize: 9,
-                                                    color: AppTheme.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right:20.0),
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,                                      children: [
-
-                                    Text(
-                                      textAlign:TextAlign.start,
-                                      '${e["name_ar"]}',
-                                      style: GoogleFonts.getFont(
-                                        AppTheme.fontName,
-                                        textStyle: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12,
-                                          color: AppTheme.darkerText,
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '${e["weight"]} - ${e["weight_to"]}',
-                                          style: GoogleFonts.getFont(
-                                            AppTheme.fontName,
-                                            textStyle: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12,
-                                              color: AppTheme.darkerText,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 20,),
-                                        Text(
-                                          '${e["vprice"]} ر.س ',
-                                          style: GoogleFonts.getFont(
-                                            AppTheme.fontName,
-                                            textStyle: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12,
-                                              color: AppTheme.orange,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "مذبوح",
-                                          style: GoogleFonts.getFont(
-                                            AppTheme.fontName,
-                                            textStyle: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12,
-                                              color: AppTheme.darkerText,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 50,),
-                                        Text(
-                                          "التقطيع ارباع ",
-                                          style: GoogleFonts.getFont(
-                                            AppTheme.fontName,
-                                            textStyle: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12,
-                                              color: AppTheme.darkerText,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "مع التغليف",
-                                          style: GoogleFonts.getFont(
-                                            AppTheme.fontName,
-                                            textStyle: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12,
-                                              color: AppTheme.darkerText,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 50,),
-                                        Text(
-                                          " مسلوخ ",
-                                          style: GoogleFonts.getFont(
-                                            AppTheme.fontName,
-                                            textStyle: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12,
-                                              color: AppTheme.darkerText,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 80,
-                                        ),
-                                        Container(
-                                          color: AppTheme.green,
-                                          child: QuantityInput(
-                                            iconColor: AppTheme.orange,
-                                            inputWidth: 50,
-                                            buttonColor:AppTheme.white ,
-
-                                            value: 1,
-                                            onChanged: (String) {},
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList()
-
-
-
-              );
-            }else{
-               return Center(child: Text("السلة فارغة"),);
-            }
-
-          }else{
-            return CircularProgressIndicator();
-          }
-
-                      },
-                    ),
-                  ),
-                ),
-
-                // child: Wrap(
-                //     spacing: 2,
-                //     runSpacing: 2,
-                //     children: data.map((e) {
-                //       final Animation<double> animation =
-                //       Tween<double>(begin: 0.0, end: 1.0).animate(
-                //           CurvedAnimation(
-                //               parent: animationController!,
-                //               curve: Interval((1 / count) * i, 1.0,
-                //                   curve: Curves.fastOutSlowIn)));
-                //       animationController?.forward();
-                //       i++;
-                //       return FadeTransition(
-                //         opacity: animation!,
-                //         child: Transform(
-                //           transform: Matrix4.translationValues(
-                //               10 * (1.0 - animation!.value), 0.0, 0.0),
-                //
-                //           child: Container(
-                //               alignment: Alignment.center,
-                //               height: 120,
-                //               width: 150,
-                //               padding: const EdgeInsets.symmetric(horizontal: 16),
-                //               decoration: BoxDecoration(
-                //                 color: Colors.white,
-                //
-                //                 borderRadius: BorderRadius.circular(8.0),
-                //                 border: Border.all(
-                //                   width: 2,
-                //                   color: AppTheme.green,
-                //                 ),
-                //               ),
-                //               child: Column(
-                //                 children: [
-                //                   Image.network('${e["image_url"]}', width: 70,height: 70,),
-                //                   Text('${e["name"]}' ,style: GoogleFonts.getFont(
-                //                     AppTheme.fontName,
-                //                     textStyle: TextStyle(
-                //                       fontFamily: AppTheme.fontName,
-                //                       fontWeight: FontWeight.w700,
-                //                       fontSize: 12,
-                //                       color: AppTheme.green,
-                //                     ),
-                //                   ),)
-                //                 ],
-                //               )
-                //
-                //           ),
-                //         ),);
-                //     }).toList()
-                // ),
-              ),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        }));
   }
 
   Future<bool> getData() async {
@@ -425,52 +117,187 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
 
         drawer: DrawerWidget(),
         backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
+        body: Container(
+          child: FutureBuilder(
+    future: _api.get_user_cart(),
+    builder: (context, snapshot) {
+    dynamic data = snapshot.data;
+    if(snapshot.hasData){
+      return Stack(
+        children: <Widget>[
+          data['products'].length > 0 ? getMainListViewUI(data) : Center(child:Text('السلة فارغة')),
 
-          Positioned(
-                bottom: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    dynamic total = 0;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AddOrder(total: total.toString(),)),
-                    );
-                  },
+          data['products'].length > 0 ?   Positioned(
+              bottom: 55,
+              left:1,
+              right: 1,
+              child: GestureDetector(
+                onTap: () {
+                  dynamic total = 0;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddOrder(total: total.toString(),)),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(0)),
-                      color: AppTheme.green,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: AppTheme.orange_c,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Center(
-                        child: Text(
-                          "اضافة طلب",
-                          style: GoogleFonts.getFont(
-                            AppTheme.fontName,
-                            textStyle: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                              color: AppTheme.white,
-                            ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text('عدد المنتجات في السلة',  style: GoogleFonts.getFont(
+                                AppTheme.fontName,
+                                textStyle: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  color: AppTheme.darkText,
+                                ),
+                              ),) ,
+                              SizedBox(width: MediaQuery.of(context).size.width / 3,),
+                              Text(total_product.toString(),  style: GoogleFonts.getFont(
+                                AppTheme.fontName,
+                                textStyle: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
+                                  color: AppTheme.darkText,
+                                ),
+                              ),)
+
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text('اجمالي السعر',  style: GoogleFonts.getFont(
+                                AppTheme.fontName,
+                                textStyle: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  color: AppTheme.darkText,
+                                ),
+                              ),) ,
+                              SizedBox(width: MediaQuery.of(context).size.width / 2.6,),
+
+                              Text('${total.toString()} ',  style: GoogleFonts.getFont(
+                                AppTheme.fontName,
+                                textStyle: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
+                                  color: AppTheme.darkText,
+                                ),
+                              ),)
+
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              )) :SizedBox(),
+          data['products'].length > 0 ?   Positioned(
+              bottom: 0,
+              child: GestureDetector(
+                onTap: () {
+                  dynamic total = 0;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddOrder(total: total.toString(),)),
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(0)),
+                    color: AppTheme.green,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Center(
+                      child: Text(
+                        "اضافة طلب",
+                        style: GoogleFonts.getFont(
+                          AppTheme.fontName,
+                          textStyle: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            color: AppTheme.white,
                           ),
                         ),
                       ),
                     ),
                   ),
-                )),
-          ],
+                ),
+              )):SizedBox(),
+        ],
+      );
+
+    }else{
+      return Center(child: CircularProgressIndicator());
+    }
+            }
+          ),
         ),
       ),
     );
   }
 
-  Widget getMainListViewUI() {
+  Widget getMainListViewUI(data) {
+    const int count = 9;
+
+// add products
+    var i = 0;
+    listViews = [];
+    final Animation<double> animation =
+    Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: animationController!,
+        curve: Interval((1 / count) * i, 1.0,
+            curve: Curves.fastOutSlowIn)));
+    animationController?.forward();
+    i++;
+    total = 0;
+    total_product = 0;
+    listViews.add( Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FadeTransition(
+          opacity: animation!,
+          child: Transform(
+            transform:
+            Matrix4.translationValues(10 * (1.0 - 0.8), 0.0, 0.0),
+            child: Column(
+                children: data['products'].map<Widget>((e) {
+                  total = total + e["vprice"] * e["quantity"];
+                  total_product =total_product +1;
+
+
+                  return   CartProductBody( data: e,);
+                }).toList()
+
+
+
+            ),
+          ),
+        ),
+
+
+      ),
+    ));
+
+
+    listViews.add(SizedBox(height: 130,));
     return FutureBuilder<bool>(
       future: getData(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -493,3 +320,233 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
   }
 
 }
+class CartProductBody extends StatefulWidget {
+  final dynamic data;
+  const CartProductBody(
+      {Key? key,
+        required this.data})
+      : super(key: key);
+  @override
+  State<CartProductBody> createState() => _CartProductBodyState();
+}
+
+class _CartProductBodyState extends State<CartProductBody> {
+  @override
+  int quantity = 1;
+  ApiProvider _api = new ApiProvider();
+
+  Widget build(BuildContext context) {
+    quantity = widget.data['quantity'];
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: AppTheme.background_c,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                        width: 100,
+                        height: 80,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(1)),
+                        ),
+                        child: Image.network(
+                            BASE_URL+'/uploads/${widget.data["image"]}')),
+                    SizedBox(height: 10,),
+                    Container(
+                        width: 100,
+                        height: 35,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(5)),
+                          color: AppTheme.orange,
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: ()async{
+                                await  _api.add_to_cart(widget.data["id"].toString(), widget.data["is_slaughtered"].toString(),widget.data["cover_type_id"].toString() ,widget.data["cut_type_id"].toString() ,0,widget.data["product_variant_id"].toString() );
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(builder: (context) => Cart()),
+                                // );
+                                setState(() {
+                                  widget.data;
+                                });
+                              },
+
+                              child: Text(
+                                'حذف من السلة',
+                                style: GoogleFonts.getFont(
+                                  AppTheme.fontName,
+                                  textStyle: TextStyle(
+                                    fontFamily:
+                                    AppTheme.fontName,
+                                    fontWeight:
+                                    FontWeight.w300,
+                                    fontSize: 9,
+                                    color: AppTheme.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right:20.0),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,                                      children: [
+
+                    Text(
+                      textAlign:TextAlign.start,
+                      '${widget.data["name_ar"]}',
+                      style: GoogleFonts.getFont(
+                        AppTheme.fontName,
+                        textStyle: TextStyle(
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: AppTheme.darkerText,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '${widget.data["weight"]} - ${widget.data["weight_to"]}',
+                          style: GoogleFonts.getFont(
+                            AppTheme.fontName,
+                            textStyle: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppTheme.darkerText,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20,),
+                        Text(
+                          '${widget.data["vprice"]} ر.س ',
+                          style: GoogleFonts.getFont(
+                            AppTheme.fontName,
+                            textStyle: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppTheme.orange,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "مذبوح",
+                          style: GoogleFonts.getFont(
+                            AppTheme.fontName,
+                            textStyle: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppTheme.darkerText,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 50,),
+                        Text(
+                          "التقطيع ارباع ",
+                          style: GoogleFonts.getFont(
+                            AppTheme.fontName,
+                            textStyle: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppTheme.darkerText,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "مع التغليف",
+                          style: GoogleFonts.getFont(
+                            AppTheme.fontName,
+                            textStyle: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppTheme.darkerText,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 50,),
+                        Text(
+                          " مسلوخ ",
+                          style: GoogleFonts.getFont(
+                            AppTheme.fontName,
+                            textStyle: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppTheme.darkerText,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 80,
+                        ),
+                        Container(
+                          color: AppTheme.green,
+                          child: QuantityInput(
+                            decoration: InputDecoration(
+
+                            ),
+                            iconColor: AppTheme.orange,
+                            inputWidth: 40,
+                            buttonColor:AppTheme.white ,
+
+                            value: quantity,
+                            onChanged: (quantity) async {
+                              await  _api.add_to_cart(widget.data["id"].toString(), widget.data["is_slaughtered"].toString(),widget.data["cover_type_id"].toString() ,widget.data["cut_type_id"].toString() ,quantity,widget.data["product_variant_id"].toString() );
+                              setState(() {
+
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+

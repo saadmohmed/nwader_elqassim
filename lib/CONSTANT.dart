@@ -33,3 +33,9 @@ const USER_NOTIFICATION = '${BASE_URL}/api/user/get_user_notifications';
 
 const CONFIGURATION = '${BASE_URL}/api/user/get_configuration';
 const GET_PAGE = '${BASE_URL}/api/user';
+const GET_AREAS = '${BASE_URL}/api/user/get_areas';
+const ADD_USER_ADDRESS = '${BASE_URL}/api/user/add_user_address';
+const GET_USER_ADDRESS = '${BASE_URL}/api/user/get_user_address';
+const DELETE_ADDRESS = '${BASE_URL}/api/user/delete_user_address';
+
+

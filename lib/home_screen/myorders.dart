@@ -272,19 +272,21 @@ class _OrderBodyState extends State<OrderBody> with SingleTickerProviderStateMix
                     ),
                   )),
                     Row(children: [
-                      Text("حالة الطلب :  ${widget.status}",   style: GoogleFonts.getFont(
-                        AppTheme.fontName,
-                        textStyle: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                          letterSpacing: 0.5,
-                          color: AppTheme.white,
-                        ),
-                      ),),
-                         SizedBox(width: MediaQuery.of(context).size.width/12,),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width/2.2,
+                        child: Text("حالة الطلب :  ${widget.status}",   style: GoogleFonts.getFont(
+                          AppTheme.fontName,
+                          textStyle: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                            letterSpacing: 0.5,
+                            color: AppTheme.white,
+                          ),
+                        ),),
+                      ),
                       Container(
-                        width: MediaQuery.of(context).size.width/3,
+                        width: MediaQuery.of(context).size.width/3.2,
                         decoration: const BoxDecoration(
                           color: AppTheme.white,
                         ),

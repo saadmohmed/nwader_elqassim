@@ -7,6 +7,7 @@ class AppTheme {
   static const Color green = Color(0xFF279D55);
   static const Color orange = Color(0xFFF34D06);
   static const Color redAcc = Color(0xFFFFEEE7);
+  static const Color orange_c = Color(0xFFFFC6B3);
 
   // #279D55
   // #F34D06
